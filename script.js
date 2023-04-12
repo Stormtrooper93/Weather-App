@@ -1,13 +1,27 @@
-const form = document.querySelector("top-banner form");
+const form = document.querySelector(".top-banner form");
 const input = document.querySelector(".top-banner input");
 const list = document.querySelector(".response-section .cities");
+const msg = document.querySelector(".msg");
 
 const apiKey = "50a8b0ec5276e4eb3f4ea3540706b3fc";
 
 form.addEventListener("submit", e => {
   e.preventDefault();
 
-  let inputVal = input.value;
+  let inputVal = input.value.toLowerCase();
+
+
+    const listItems = list.querySelectorAll(".response-section .city");
+    const listItemsArray = Array.from(listItems);
+
+    if(listItemsArray.length > 0) {
+        const dublicate = listItemsArray.find(el => {
+            const cityName = el.querySelector(".city-name span").textContent.toLowerCase();
+            console.log(cityName);
+            return inputVal === cityName;
+        });
+
+    }
 
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${inputVal}&appid=${apiKey}&units=metric`;
 
@@ -36,6 +50,13 @@ form.addEventListener("submit", e => {
 
       li.innerHTML = markup;
       list.appendChild(li);
+    })
+    .catch(() => {
+        msg.textContent = "Please search for a valid city"
     });
+
+form.reset();
+input.focus();
+msg.textContent = "";
 });
 // ``;

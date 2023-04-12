@@ -17,14 +17,14 @@ form.addEventListener("submit", (e) => {
     //find if we have already card for user's input city
     const dublicate = listItemsArray.find((el) => {
       
-        if (inputVal.includes(",")) {
-            if (inputVal.split(",")[1].length > 2) {
-                inputVal = inputVal.split(",")[0];
-                const content = el.querySelector(".city-name").dataset.name.toLowerCase();
-                return inputVal === content;
+        if(inputVal.includes(",")) {
+            if(inputVal.split(',')[1].length > 2) {
+              inputVal = inputVal.split(',')[0];
+              const content = el.querySelector(".city-name span").textContent.toLowerCase();
+              return inputVal === content; 
             } else {
-            const cityName = el.querySelector(".city-name").dataset.name.toLowerCase();
-            return inputVal.toLowerCase() === cityData;
+              const cityData = el.querySelector(".city-name").dataset.name.toLowerCase();
+              return inputVal.toLowerCase() === cityData;
             }
 
         } else {

@@ -8,19 +8,40 @@ const apiKey = "50a8b0ec5276e4eb3f4ea3540706b3fc";
 form.addEventListener("submit", e => {
   e.preventDefault();
 
-  let inputVal = input.value.toLowerCase();
+  let inputVal = input.value;
 
 
     const listItems = list.querySelectorAll(".response-section .city");
     const listItemsArray = Array.from(listItems);
 
     if(listItemsArray.length > 0) {
+        //find if we have already card for user's input city
         const dublicate = listItemsArray.find(el => {
+
+            if(inputVal.includes(",")) {
+                if(inputVal.split(',')[1].length > 2) {
+                    inputVal = inputVal.split(',')[0];
+                    const content = el.querySelector(".city-name").dataset.name.toLowerCase()
+                    return inputVal === content;
+                }
+            } else {    
+                const cityName = el.querySelector(".city-name").dataset.name.toLowerCase();
+                return inputVal.toLowerCase() === cityData;
+            } else {
+            
+            //take out for the card value of city
             const cityName = el.querySelector(".city-name span").textContent.toLowerCase();
-            console.log(cityName);
-            return inputVal === cityName;
+            // match input search value with city card
+            return inputVal.toLowerCase() === cityName;
+            }
         });
 
+        if(dublicate) {
+            msg.textContent = `You already know the weather for ${inputVal}`;
+            form.reset();
+            input.focus();
+            return;
+        }
     }
 
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${inputVal}&appid=${apiKey}&units=metric`;
